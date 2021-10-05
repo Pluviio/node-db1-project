@@ -25,6 +25,7 @@ async function updateById (id, account) {
   await db ('accounts')
   .update(account)
   .where('id', id)
+  return getById(id)
 }
 
 async function deleteById  (id) {
