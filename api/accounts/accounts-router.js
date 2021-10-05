@@ -8,13 +8,14 @@ const {
 } = require ('./accounts-middleware.js')
 
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   // DO YOUR MAGIC
-  Accounts.getAll(req.query)
-  .then(accounts => {
-    res.status(200).json(accounts);
-  })
-  .catch(error)
+  try {
+  const allAccounts = await Accounts.getAll()
+  res.json(allAccounts)
+  } catch (err) {
+  next(err)
+  }
 })
 
 router.get('/:id', checkAccountId, async (req, res, next) => {
@@ -30,8 +31,7 @@ router.get('/:id', checkAccountId, async (req, res, next) => {
 router.post('/', checkAccountPayload, checkAccountNameUnique, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const newAccount = await Accounts
-    .create({ name: req.body.name.trim, budget: req.body.budget  })
+    const newAccount = await Accounts.create({ name: req.body.name.trim, budget: req.body.budget, })
    
     res.status(201).json(newAccount)
   } catch (err) {
