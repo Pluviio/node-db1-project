@@ -3,7 +3,7 @@ const db = require('../../data/db-config')
 const getAll = () => {
   // DO YOUR MAGIC
   return db('accounts')
-  .select('id', 'accounts', 'budget')
+  .select('id', 'name', 'budget')
 }
 
 const getById = async (id) => {
